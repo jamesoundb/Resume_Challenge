@@ -8,5 +8,5 @@ Resources include:
   5. Route53
   6. S3 for a static website with CORS configuration
   7. S3 for tfstate file
-  8. ACM Certificates
+  8. ACM Certificate
   9. IAM Policies
