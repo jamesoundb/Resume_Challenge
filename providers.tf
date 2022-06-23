@@ -7,10 +7,10 @@ terraform {
   }
 
   backend "s3" {
-    bucket  = "jameswurbel.com-statefile-storage"
-    key     = "terraform.tfstate"
-    region  = "us-east-1"
-    encrypt = true
+    bucket         = "jameswurbel.com-statefile-storage"
+    key            = "terraform.tfstate"
+    region         = "us-east-1"
+    encrypt        = true
     dynamodb_table = "Statefile_lock"
   }
 
