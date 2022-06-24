@@ -4,7 +4,7 @@ resource "aws_s3_bucket" "jameswurbel" {
 
 resource "aws_s3_bucket_acl" "bucket-acl" {
   bucket = aws_s3_bucket.jameswurbel.id
-  acl    = "private"
+  acl    = "public-read"
 }
 
 resource "aws_s3_bucket_website_configuration" "jameswurbel" {
