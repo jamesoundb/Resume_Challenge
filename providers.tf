@@ -13,8 +13,6 @@ terraform {
     encrypt        = true
     dynamodb_table = "Statefile_lock"
   }
-
-
 }
 
 provider "aws" {
