@@ -77,9 +77,11 @@ jobs:
         role-to-assume: arn:aws:iam::928120649998:role/github-actions-cloud-resume
         aws-region: us-east-1
 
-    # Install the latest version of Terraform CLI
+    # Install the latest version of Terraform CLI and configure registry credentials
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
+      with:
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
     # Initialize a new or existing Terraform working directory
     - name: Terraform Init
