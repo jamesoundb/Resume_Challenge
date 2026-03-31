@@ -1,25 +1,3 @@
-resource "aws_dynamodb_table" "visitors" {
-  name         = "Visitors"
-  billing_mode = "PAY_PER_REQUEST"
-  hash_key     = "visitor"
-
-  attribute {
-    name = "visitor"
-    type = "N"
-  }
-}
-
-resource "aws_dynamodb_table" "statefile_lock" {
-  name         = "Statefile_lock"
-  billing_mode = "PAY_PER_REQUEST"
-  hash_key     = "LockID"
-
-  attribute {
-    name = "LockID"
-    type = "S"
-  }
-}
-
 resource "aws_iam_role" "iam_for_dynamodb_state_lock" {
   name = "iam_for_dynamodb_state_lock"
 

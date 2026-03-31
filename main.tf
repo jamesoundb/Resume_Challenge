@@ -1,22 +1,7 @@
-# Example: Using the Cloud Resume Challenge Modules
-# This file demonstrates how to use all the modules together
-
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 4.0"
-    }
-  }
-}
-
-provider "aws" {
-  region = var.region
-}
-
 # DynamoDB Tables
 module "dynamodb_tables" {
-  source = "./modules/dynamodb-tables"
+  source  = "app.terraform.io/Jamesoundb/dynamodb-tables/aws"
+  version = "1.0.2"
 
   tables = {
     visitors = {
@@ -30,7 +15,7 @@ module "dynamodb_tables" {
         }
       ]
     }
-    
+
     statefile_lock = {
       name         = "Statefile_lock"
       billing_mode = "PAY_PER_REQUEST"
@@ -52,7 +37,8 @@ module "dynamodb_tables" {
 
 # S3 Static Website
 module "s3_website" {
-  source = "./modules/s3-static-website"
+  source  = "app.terraform.io/Jamesoundb/s3-static-website/aws"
+  version = "1.0.0"
 
   bucket_name    = var.bucket_name
   index_document = "index.html"
@@ -77,7 +63,8 @@ module "s3_website" {
 
 # Lambda Function
 module "lambda_function" {
-  source = "./modules/lambda-dynamodb-api"
+  source  = "app.terraform.io/Jamesoundb/lambda-dynamodb-api/aws"
+  version = "1.0.0"
 
   function_name   = "lambda_function"
   lambda_filename = "lambda/lambda_function.zip"
@@ -102,10 +89,11 @@ module "lambda_function" {
 
 # API Gateway
 module "api_gateway" {
-  source = "./modules/api-gateway-lambda"
+  source  = "app.terraform.io/Jamesoundb/api-gateway-lambda/aws"
+  version = "1.0.0"
 
   api_name           = "MyAPI"
-  api_description    = "CORS-enabled API for visitor counter"
+  api_description    = "CORS-enabled methods."
   resource_path_part = "visitorcount"
   http_method        = "GET"
   lambda_invoke_arn  = module.lambda_function.invoke_arn
@@ -123,15 +111,22 @@ module "api_gateway" {
 
 # CloudFront + Route53
 module "cloudfront_website" {
-  source = "./modules/cloudfront-s3-website"
+  source  = "app.terraform.io/Jamesoundb/cloudfront-s3-website/aws"
+  version = "1.0.1"
 
   domain_name                    = var.root_domain_name
   subject_alternative_names      = ["*.${var.root_domain_name}"]
   s3_bucket_regional_domain_name = module.s3_website.bucket_regional_domain_name
-  
+  s3_origin_id                   = "jameswurbel"
+  oai_comment                    = "mybucketid"
+  cloudfront_comment             = "index"
+
   aliases             = [var.root_domain_name, var.www_domain_name]
   default_root_object = "index.html"
   price_class         = "PriceClass_200"
+
+  minimum_protocol_version = "TLSv1"
+  evaluate_target_health   = true
 
   ordered_cache_behaviors = [
     {
@@ -161,7 +156,6 @@ module "cloudfront_website" {
   geo_restriction_locations = ["US", "CA", "GB", "DE"]
 
   tags = {
-    Project     = "CloudResume"
     Environment = "production"
   }
 }
