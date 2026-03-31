@@ -148,11 +148,17 @@ resource "aws_iam_policy" "github_actions" {
           "iam:ListRolePolicies",
           "iam:TagRole",
           "iam:UntagRole",
-          "iam:ListInstanceProfilesForRole"
+          "iam:ListInstanceProfilesForRole",
+          "iam:GetOpenIDConnectProvider",
+          "iam:CreateOpenIDConnectProvider",
+          "iam:DeleteOpenIDConnectProvider",
+          "iam:UpdateOpenIDConnectProviderThumbprint",
+          "iam:TagOpenIDConnectProvider"
         ]
         Resource = [
           "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/*",
-          "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/*"
+          "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/*",
+          "arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/*"
         ]
       }
     ]
