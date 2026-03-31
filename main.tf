@@ -44,17 +44,6 @@ module "s3_website" {
   index_document = "index.html"
   error_document = "error.html"
 
-  website_files = {
-    "index.html" = {
-      source       = var.s3_resume_source
-      content_type = "text/html"
-    }
-    "apifetch_jameswurbel.js" = {
-      source       = var.s3_javascript_source
-      content_type = "application/javascript"
-    }
-  }
-
   tags = {
     Project     = "CloudResume"
     Environment = "production"
