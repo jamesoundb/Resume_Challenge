@@ -1,4 +1,4 @@
-# Cloud Resume Challenge — Backend Infrastructure
+# Cloud Resume Backend Infrastructure
 
 Terraform root configuration for [jameswurbel.com](https://jameswurbel.com). This repo is a thin orchestration layer that calls versioned modules from the [HCP Terraform private registry](https://app.terraform.io/app/Jamesoundb).
 
