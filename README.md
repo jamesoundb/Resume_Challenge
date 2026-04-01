@@ -30,6 +30,7 @@ All infrastructure is defined through five Terraform modules, each in its own re
 ├── outputs.tf                 # Root outputs
 ├── providers.tf               # AWS provider + S3 backend
 ├── github_oidc.tf             # GitHub Actions OIDC auth (keyless CI/CD)
+├── api_throttling.tf          # API Gateway rate limiting
 ├── s3_statefile.tf            # State bucket + encryption + versioning
 ├── dynamodb_statelock_iam.tf  # State lock table IAM
 ├── lambda/
@@ -77,13 +78,25 @@ terraform apply
 | Service | Purpose |
 |---------|---------|
 | S3 | Static website hosting, Terraform state storage |
-| CloudFront | CDN with SSL/TLS |
+| CloudFront | CDN with SSL/TLS, WAF rate limiting |
 | Route53 | DNS (jameswurbel.com + www) |
-| ACM | SSL certificate |
+| ACM | SSL certificate (TLS 1.2) |
+| WAF v2 | CloudFront rate-based rule (2000 req/5 min per IP) |
 | API Gateway | REST API for visitor counter |
 | Lambda | Visitor count logic (Python) |
 | DynamoDB | Visitor count + state lock tables |
 | IAM | OIDC provider, Lambda roles, state lock roles |
+
+## Security
+
+| Layer | Control | Detail |
+|-------|---------|--------|
+| TLS | Minimum TLS 1.2 | `TLSv1.2_2021` on CloudFront viewer certificate |
+| Geo Blocking | Country blacklist | CN, RU, IR, KP, SY, CU, BY blocked at CloudFront edge |
+| WAF | Rate limiting | 2000 requests per 5 minutes per IP on CloudFront |
+| API Gateway | Throttling | 10 requests/sec steady-state, 20 burst across all methods |
+| Auth | GitHub OIDC | Keyless CI/CD — no static AWS credentials |
+| Encryption | S3 + DynamoDB | State bucket encrypted with versioning enabled |
 
 ## License
 
