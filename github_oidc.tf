@@ -114,6 +114,14 @@ resource "aws_iam_policy" "github_actions" {
         Resource = "*"
       },
       {
+        Sid    = "WAFv2Access"
+        Effect = "Allow"
+        Action = [
+          "wafv2:*"
+        ]
+        Resource = "*"
+      },
+      {
         Sid    = "Route53Access"
         Effect = "Allow"
         Action = [

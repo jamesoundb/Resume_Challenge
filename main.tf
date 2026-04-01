@@ -101,7 +101,7 @@ module "api_gateway" {
 # CloudFront + Route53
 module "cloudfront_website" {
   source  = "app.terraform.io/Jamesoundb/cloudfront-s3-website/aws"
-  version = "1.0.1"
+  version = "1.0.2"
 
   domain_name                    = var.root_domain_name
   subject_alternative_names      = ["*.${var.root_domain_name}"]
@@ -143,6 +143,9 @@ module "cloudfront_website" {
 
   geo_restriction_type      = "blacklist"
   geo_restriction_locations = ["CN", "RU", "IR", "KP", "SY", "CU", "BY"]
+
+  enable_waf_rate_limiting = true
+  waf_rate_limit          = 2000
 
   tags = {
     Environment = "production"

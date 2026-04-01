@@ -20,7 +20,7 @@ All infrastructure is defined through five Terraform modules, each in its own re
 | [s3-static-website](https://github.com/jamesoundb/terraform-aws-s3-static-website) | `app.terraform.io/Jamesoundb/s3-static-website/aws` | 1.0.0 |
 | [lambda-dynamodb-api](https://github.com/jamesoundb/terraform-aws-lambda-dynamodb-api) | `app.terraform.io/Jamesoundb/lambda-dynamodb-api/aws` | 1.0.0 |
 | [api-gateway-lambda](https://github.com/jamesoundb/terraform-aws-api-gateway-lambda) | `app.terraform.io/Jamesoundb/api-gateway-lambda/aws` | 1.0.0 |
-| [cloudfront-s3-website](https://github.com/jamesoundb/terraform-aws-cloudfront-s3-website) | `app.terraform.io/Jamesoundb/cloudfront-s3-website/aws` | 1.0.1 |
+| [cloudfront-s3-website](https://github.com/jamesoundb/terraform-aws-cloudfront-s3-website) | `app.terraform.io/Jamesoundb/cloudfront-s3-website/aws` | 1.0.2 |
 
 ## Repository Structure
 
