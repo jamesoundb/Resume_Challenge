@@ -97,12 +97,16 @@ All infrastructure is defined through five Terraform modules, each in its own re
 
 GitHub Actions pipeline on push to `main`:
 
-1. **Format** — `terraform fmt -check`
-2. **Init** — Downloads modules from HCP Terraform private registry
-3. **Plan** — Previews infrastructure changes
-4. **Apply** — Deploys to AWS (main branch only)
+1. **Checkout** — Clone repository
+2. **AWS Credentials** — Assume IAM role via GitHub OIDC (no static keys)
+3. **Terraform Init** — Download modules from HCP Terraform private registry
+4. **Terraform Format** — Automatic formatting of `.tf` files
+5. **Terraform Plan** — Preview infrastructure changes
+6. **Terraform Apply** — Deploy to AWS (main branch + push events only)
 
-Authentication uses **GitHub OIDC** — the Actions runner assumes an IAM role (`github-actions-cloud-resume`) with no static AWS keys stored anywhere.
+Authentication uses:
+- **GitHub OIDC** — Role assumption for AWS (keyless)
+- **HCP Terraform API Token** — Registry authentication (stored in GitHub Actions secrets)
 
 ## Security
 
@@ -143,6 +147,34 @@ Authentication uses **GitHub OIDC** — the Actions runner assumes an IAM role (
     token = "your-hcp-token"
   }
   ```
+
+## HCP Terraform Private Registry Setup
+
+This repo calls five reusable modules published to the HCP Terraform private registry under the `Jamesoundb` organization. To use these modules:
+
+### Local Development
+
+1. Create or log in to your [HCP Terraform account](https://app.terraform.io)
+2. Generate an API token: **Account Settings** → **Tokens** → **Create an API token**
+3. Add the token to `~/.terraformrc`:
+   ```hcl
+   credentials "app.terraform.io" {
+     token = "YOUR_HCP_API_TOKEN"
+   }
+   ```
+4. Run `terraform init` — it will authenticate and download modules from the registry
+
+### GitHub Actions CI/CD
+
+The Actions workflow needs the HCP token to download modules. Set it up:
+
+1. Go to your GitHub repo → **Settings** → **Secrets and variables** → **Actions**
+2. Create a new secret:
+   - **Name:** `TF_API_TOKEN`
+   - **Value:** Your HCP Terraform API token
+3. The workflow's `Setup Terraform` step uses this token via `cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}`
+
+> **⚠️ Security:** Never commit your HCP token to version control. Always use GitHub Actions secrets.
 
 ## Usage
 
