@@ -114,7 +114,7 @@ module "cloudfront_website" {
   default_root_object = "index.html"
   price_class         = "PriceClass_200"
 
-  minimum_protocol_version = "TLSv1"
+  minimum_protocol_version = "TLSv1.2_2021"
   evaluate_target_health   = true
 
   ordered_cache_behaviors = [
@@ -141,8 +141,8 @@ module "cloudfront_website" {
     }
   ]
 
-  geo_restriction_type      = "whitelist"
-  geo_restriction_locations = ["US", "CA", "GB", "DE"]
+  geo_restriction_type      = "blacklist"
+  geo_restriction_locations = ["CN", "RU", "IR", "KP", "SY", "CU", "BY"]
 
   tags = {
     Environment = "production"
