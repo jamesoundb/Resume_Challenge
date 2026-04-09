@@ -198,7 +198,3 @@ terraform apply
 ## License
 
 [MIT](LICENSE)
-
-## License
-
-[MIT](LICENSE)
