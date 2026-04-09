@@ -78,7 +78,7 @@ User Request Flow:
 ## 📂 Module Structure
 
 ```
-Cloud_Resume_Challenge_2/
+Cloud_Resume/
 │
 ├── modules/                                    # All reusable modules
 │   │
