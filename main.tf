@@ -58,7 +58,7 @@ module "lambda_function" {
   function_name   = "lambda_function"
   lambda_filename = "lambda/lambda_function.zip"
   handler         = "lambda_function.lambda_handler"
-  runtime         = "python3.8"
+  runtime         = "python3.12"
 
   enable_dynamodb_access = true
   dynamodb_table_arns    = [module.dynamodb_tables.table_arns["visitors"]]

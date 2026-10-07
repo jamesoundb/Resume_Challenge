@@ -37,7 +37,7 @@ flowchart TB
 
     subgraph API["Visitor Counter API"]
         APIGW["API Gateway\nREST API\n10 req/s · 20 burst"]
-        LMB["Lambda\nPython 3.8"]
+        LMB["Lambda\nPython 3.12"]
         DDB["DynamoDB\nVisitors Table"]
         APIGW --> LMB --> DDB
     end
@@ -131,7 +131,7 @@ Authentication uses:
 | ACM | `54df301a-...` | SSL certificate (DNS validated) |
 | WAF v2 | `jameswurbel-com-rate-limit` | Rate-based rule on CloudFront |
 | API Gateway | `MyAPI` | REST API for visitor counter (`/visitorcount`) |
-| Lambda | `lambda_function` | Visitor count logic (Python 3.8) |
+| Lambda | `lambda_function` | Visitor count logic (Python 3.12) |
 | DynamoDB | `Visitors` | Visitor count storage |
 | DynamoDB | `Statefile_lock` | Terraform state locking |
 | IAM | `github-actions-cloud-resume` | OIDC role for CI/CD |
